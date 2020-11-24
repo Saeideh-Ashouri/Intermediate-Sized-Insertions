@@ -1,1 +1,1 @@
-# IntermediateSizedInsertions
+# Intermediate-Sized-Insertions
