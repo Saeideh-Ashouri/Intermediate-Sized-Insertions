@@ -5,10 +5,10 @@ print(get_header[0], sep="\t", end="")
 
 imsindel_overall = open(sys.argv[1])
 for line in imsindel_overall:
-  line=line.rstrip("\n").split("\t")
-  status_lst = []
-  if line[0] == ">indel_type":
-    continue
+	line=line.rstrip("\n").split("\t")
+	status_lst = []
+	if line[0] == ">indel_type":
+		continue
 	length = line[5].split(",")
 	for ele in length:
 		if int(ele) > 10:
