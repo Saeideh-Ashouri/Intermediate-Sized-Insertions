@@ -26,10 +26,9 @@ Annotation file used for annotating insertions for repeat maskers can be downloa
 Annotation file used for annotating insertions for centromeres and telomeres is provided in the required_files folder in this repository. This file was modified after downloading from the UCSC genome browser site (https://genome.ucsc.edu/index.html) using the Table Browser utility tool, with group="All Tables"; database=hg19; table="gap".    
 
 ----------------------------------------
-Usage:
+How to use the scripts:
 
-Make an overall deletions list from results of IMSindel indel call results for each sample run.
-Use the script <process_IMSindel_results.sh> to process the .out files of IMSindel results.
-Ensure that each samples' .out files are contained in a single individual directory specific to the sample. E.g. /path/to/results/sample1_results and /path/to/results/sample2_results ...etc.
-It is recommended to have all samples' deletions lists within a single directory, i.e. /path/to/all/samples_deletions/
-Deletions from the IMSindel call for each sample will be extracted from the results of the IMSindel run and collected into a single deletions list per sample.
+The shell script "01-process_IMSindel_results.sh", is used for processing and concatenating the list of insertions called by IMSindel software. Before using this script, please place output files from each sample in a subfolder in your input folder. Please name each subfolder same as the sample name. Please provide a list of samples in a file with each sample name in a row and name it "samples". By running this script, outpt files of each sample will be concatenated in a single file, very short each sample's name will be inserted in it, and chromosomal location will be added for each insertion. To use this shell script, type the code below:
+$sh 01-process_IMSindel_results.sh <path-to-input-folder> <samples-name-file> <path-to-output-files>
+
+The other shell script, "02-generate_high_confidence_insertions.sh", merges insertion candidates based on their positions in the genome. Then, it annotates them for genic regions as well as repetitive regions of the genome and filters out false-positive insertion candidates based on their annotations. To use this shell script, place required annotation files in the requred_files directory and type the following command:
