@@ -49,5 +49,20 @@ All other columns are outputs from IMSindel.
 
 -----------------------------------------
 
-Configuration file:
-The config file provided in this repository 
+Configuration file:   
+The parameters provided in the config file could be changed based on your preference.   
+1) merge_insertions_positions_difference: This parameter identifies the difference in insertions position (in base pair) based on which the insertions are merged and considered as one insertion in different samples. The default value is 10.   
+2) annotation_flank: This parameter specifies the flanking regions on both sides of insertion position for which the annotation of simple repeats and repeat masker elements is conducted. The default value is 100.    
+3) confident_ins_num_threshold: This parameter shows the minimum number of samples with sufficient number of support reads for a cofident insertion call. The default value is 2.
+4) ins_sup_reads_threshold: The minimum number of support reads for a confident insertion call. The default value is 5. 
+5) ins_len_filter_threshold: The insertion length threshold for filtering out short insertions. As IMSindel does not report the full length of insertions, it is recommended to keep this value as low as possible to ensure that less insertions are excluded. The default value is 20.    
+6) total_reads: The threshold of total reads for filtering out possibly false positive insertions. The default value is 10.   
+7) variant_allele_frequency: This is the variant allele frequency defined as the proportion of support reads to total reads for each insertion. Insertions with variant allele frequency less than this value are filtered out. The default value is 0.1.   
+8) HWE_exclusion_threshold: The threshold for Hardy-Weinberg p-value threshold. Insertions with p-values less than this will be excluded from the data. The default value is 0.0001.
+9) allele_frequency_exclusion_threshold: The insertions allele frequency threshold. Insertions with allele frequency less than this threshold will be excluded from the data. The default value is 0.05.
+10) reference: Source of reference used for the sequencing data. Value should be a string describing the reference source (e.g. NCBI37).    
+11) assembly: Source of genome assembly used for the sequencing data. Value should be a string describing the assembly (e.g.ncbi_build37.fa).   
+
+----------------------------------------------
+
+Contact: Saeideh Ashouri (saeede_ashoori@yahoo.com)
