@@ -36,7 +36,7 @@ $sh 02-generate_high_confidence_insertions.sh {path-to-the-processed-list-of-ins
   
 -----------------------------------------
 
-Output files:
+Output files:   
 The following file will be output for each sample from the <01-process_IMSindel_results.sh> script:
 *sample_name.overall.insertions:    
 This file contains the insertions extracted from the results of running IMSindel for each sample. Columns are tab-separated.    
