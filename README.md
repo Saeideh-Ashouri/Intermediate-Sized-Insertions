@@ -38,9 +38,16 @@ $sh 02-generate_high_confidence_insertions.sh {path-to-the-processed-list-of-ins
 
 Output files:
 The following file will be output for each sample from the <01-process_IMSindel_results.sh> script:
-*sample_name.overall.insertions:
-This file contains the deletions extracted from the results of running IMSindel for each sample. Columns are tab-separated values.
-"sample" column consists of the sample name as specified when making the overall merged file.
-"contig", "sttpos" and "endpos" columns shows the contig in which the deletion was called from during IMSindel calling, as well as the start and end breakpoints.
-"chr", "chrm_stt" and "chrm_edd" columns show the chromosome, start and end breakpoints, respectively, for the deletion.
+*sample_name.overall.insertions:    
+This file contains the insertions extracted from the results of running IMSindel for each sample. Columns are tab-separated.    
+"sample_name" column consists of the sample name as specified when making the overall concatenated file.
+"contig" column shows the contig in which the insertion was called from, during IMSindel calling.
+"sttpos" and "endpos" show the insertion position.
+"chromosome" column shows the chromosome on which the insertion is located.
+Both "stt_pos" and "end_pos" show the insertion position.
 All other columns are outputs from IMSindel.
+
+-----------------------------------------
+
+Configuration file:
+The config file provided in this repository 
