@@ -1,0 +1,13 @@
+##### Parameters (please make changes to values in this file if needed). #####
+merge_insertions_positions_difference=10
+annotation_flank=100
+confident_ins_num_threshold=2
+ins_sup_reads_threshold=5
+ins_len_filter_threshold=20
+total_reads=50
+variant_allele_frequency=0.1
+HWE_exclusion_threshold=0.0001
+allele_frequency_exclusion_threshold=0.05
+reference=NCBI37
+assembly=ncbi_build37.fa
+####################################################################
