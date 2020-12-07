@@ -36,5 +36,6 @@ $sh 02-generate_high_confidence_insertions.sh <path-to-processed-list-of-inserti
   
 -------------------------------------------------------
 
+Output files from each step:
 
   
