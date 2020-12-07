@@ -34,7 +34,7 @@ $sh 01-process_IMSindel_results.sh <path-to-input-folder> <samples-name-file> <p
 The other shell script, "02-generate_high_confidence_insertions.sh", merges insertion candidates based on their positions in the genome. Then, it annotates them for genic regions as well as repetitive regions of the genome and filters out false-positive insertion candidates based on their annotations. To use this shell script, place required annotation files in the requred_files directory and type the following command:     
 
 <path-to-processed-list-of-insertions-from-previous-step> <path-to-desired-output-folder> 
-$sh 02-generate_high_confidence_insertions.sh   
+$sh 02-generate_high_confidence_insertions.sh <path-to-processed-list-of-insertions-from-previous-step>   
   
 -------------------------------------------------------
 
