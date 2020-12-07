@@ -15,5 +15,5 @@ Input files:
 *.out file from insertion calling using IMSindel
 
 required  
-hello 
 salam 
+hello 
