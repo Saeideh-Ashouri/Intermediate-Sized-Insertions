@@ -15,3 +15,8 @@ Input files:
 *.out file from insertion calling using IMSindel
 
 
+Required programs:
+R
+Python
+IMSIndel
+Python module
