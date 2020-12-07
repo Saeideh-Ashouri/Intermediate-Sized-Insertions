@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#command to run this script: sh 01-process_IMSindel_results.sh imsindel_output output sample_names 
 path=$0
 if [ "$path" == "${path%/*}" ]; then src=.; else src=${path%/*}; fi
 in_dir=$1

@@ -22,22 +22,22 @@ reference=`python $src/bin/read_config_file.py $src/config reference`
 assembly=`python $src/bin/read_config_file.py $src/config assembly`
 if [ ! -d $out_dir ]; then mkdir $out_dir; fi
 
-#echo "Concatenating insertions lists from all samples... "
-#cat $input_dir/*.overall.insertions > $out_dir/01-overall_concatenated_insertions
-#python $src/bin/04-remove-extra-headers-from-concatenated-insertions.py $out_dir/01-overall_concatenated_insertions > $out_dir/02-concatenated-insertions-extra-headers-removed
-#awk 'NR==1; NR > 1 {print $0 | "sort -k7,7V -k8,8n"}' $out_dir/02-concatenated-insertions-extra-headers-removed > $out_dir/03-concatenated-insertions-chromosomes-sorted
-#exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
-#rm $out_dir/01-overall_concatenated_insertions
-#rm $out_dir/02-concatenated-insertions-extra-headers-removed
+echo "Concatenating insertions lists from all samples... "
+cat $input_dir/*.overall.insertions > $out_dir/01-overall_concatenated_insertions
+python $src/bin/04-remove-extra-headers-from-concatenated-insertions.py $out_dir/01-overall_concatenated_insertions > $out_dir/02-concatenated-insertions-extra-headers-removed
+awk 'NR==1; NR > 1 {print $0 | "sort -k7,7V -k8,8n"}' $out_dir/02-concatenated-insertions-extra-headers-removed > $out_dir/03-concatenated-insertions-chromosomes-sorted
+exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
+rm $out_dir/01-overall_concatenated_insertions
+rm $out_dir/02-concatenated-insertions-extra-headers-removed
 
-#echo "Merging insertion calls... "
-#python $src/bin/05-merge-insertions.py $out_dir/03-concatenated-insertions-chromosomes-sorted $merge_insertions_positions_difference > $out_dir/04-IMSindel.insertions.merged
-#exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
+echo "Merging insertion calls... "
+python $src/bin/05-merge-insertions.py $out_dir/03-concatenated-insertions-chromosomes-sorted $merge_insertions_positions_difference > $out_dir/04-IMSindel.insertions.merged
+exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
 
-#echo "Annotating insertions... "
-#python $src/bin/06-annotation-gene-repeats.py $gene_file $acen_file $simplerep_file $repmask_file $out_dir/04-IMSindel.insertions.merged $annotation_flank > $out_dir/05-IMSindel.insertions.annotated
-#python $src/bin/07-annotation-microsatellite.py $microsatellites $out_dir/05-IMSindel.insertions.annotated > $out_dir/06-IMSindel.insertions.overall.annotation
-#exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
+echo "Annotating insertions... "
+python $src/bin/06-annotation-gene-repeats.py $gene_file $acen_file $simplerep_file $repmask_file $out_dir/04-IMSindel.insertions.merged $annotation_flank > $out_dir/05-IMSindel.insertions.annotated
+python $src/bin/07-annotation-microsatellite.py $microsatellites $out_dir/05-IMSindel.insertions.annotated > $out_dir/06-IMSindel.insertions.overall.annotation
+exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
 
 echo "Filtering insertions and conducting joint call recovery... "
 python $src/bin/08-size-filter.py $out_dir/06-IMSindel.insertions.overall.annotation $ins_len_filter_threshold > $out_dir/07-IMSindel.insertions-filtered-for-size
