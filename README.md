@@ -1,5 +1,6 @@
 # Processing the list of intermediate-sized insertion calls
 This is a workflow for processing the list of intermediate-sized insertions called by IMSindel software.
+------------------------------------
 
 Required softwares:
 
@@ -11,9 +12,6 @@ Python (ver. 3.4 or higher)
 
 NumPy module for python
 
-Input files:
+Input files:    
 *.out file from insertion calling using IMSindel
 
-required  
-salam 
-hello 
