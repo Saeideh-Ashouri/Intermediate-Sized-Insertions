@@ -5,4 +5,4 @@ f <- fisher.test(matrix(row, nrow=3), alternative=alt, conf.level=cnf, hybrid=TR
 return(c(row, p_val=f$p.value, or=f$estimate[[1]], or_ll=f$conf.int[1], or_ul=f$conf.int[2]))
 }
 p <- t(apply(table, 1, row.fisher))
-write.table(p, "14-IMSindel.insertions-HWE-results", sep="\t")
+write.table(p, "12-IMSindel.insertions-HWE-results", sep="\t")
