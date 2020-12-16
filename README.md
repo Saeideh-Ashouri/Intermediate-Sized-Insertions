@@ -28,8 +28,8 @@ Annotation file used for annotating insertions for centromeres and telomeres is 
 ----------------------------------------
 How to use the scripts:
 
-The shell script "01-process_IMSindel_results.sh", is used for processing and concatenating the list of insertions called by IMSindel software. Before using this script, please place output files from each sample in a subfolder in your input folder. Please name each subfolder same as the sample name. Please provide a list of samples in a file with each sample name in a row and name it "samples". By running this script, outpt files of each sample will be concatenated in a single file, very short each sample's name will be inserted in it, and chromosomal location will be added for each insertion. To use this shell script, type the code below:    
-$sh 01-process_IMSindel_results.sh {path-to-input-folder} {path-to-output-files} {samples-name-file}
+The shell script "01-process_IMSindel_results.sh", is used for processing and concatenating the list of insertions called by IMSindel software. Before using this script, please place output files from each sample in a subfolder in your input folder. Please name each subfolder same as the sample name. Please provide a list of samples in a file with each sample name in a row and name it "samples". By running this script, outpt files of each sample will be concatenated in a single file, very short insertions will be excluded, each sample's name will be inserted in it, and chromosomal location will be added for each insertion. To use this shell script, type the code below:    
+$sh 01-process_IMSindel_results.sh {path-to-input-folder} {path-to-output-files} {path-to-samples-name-file}
 
 The other shell script, "02-generate_high_confidence_insertions.sh", merges insertion candidates based on their positions in the genome. Then, it annotates them for genic regions as well as repetitive regions of the genome and filters out false-positive insertion candidates based on their annotations. To use this shell script, place required annotation files in the requred_files directory and type the following command:   
 $sh 02-generate_high_confidence_insertions.sh {path-to-the-processed-list-of-insertions-from-previous-step} {path-to-desired-output-folder}  
@@ -37,7 +37,7 @@ $sh 02-generate_high_confidence_insertions.sh {path-to-the-processed-list-of-ins
 -----------------------------------------
 
 Output files:   
-The following file will be output for each sample from the <01-process_IMSindel_results.sh> script:
+The following file will be output for each sample from running the <01-process_IMSindel_results.sh> script:
 *sample_name.overall.insertions:    
 This file contains the insertions extracted from the results of running IMSindel for each sample. Columns are tab-separated.    
 "sample_name" column consists of the sample name as specified when making the overall concatenated file.
@@ -46,6 +46,10 @@ This file contains the insertions extracted from the results of running IMSindel
 "chromosome" column shows the chromosome on which the insertion is located.
 Both "stt_pos" and "end_pos" show the insertion position.
 All other columns are outputs from IMSindel.
+
+The following file will be output from running the <02-generate_high_confidence_insertions.sh> script:
+
+This is a vcf file inclding all insertions detected in all samples, ready to be used for further analysis.
 
 -----------------------------------------
 
