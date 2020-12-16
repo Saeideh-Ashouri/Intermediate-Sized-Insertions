@@ -38,7 +38,7 @@ $sh 02-generate_high_confidence_insertions.sh {path-to-the-processed-list-of-ins
 
 Output files:   
 The following file will be output for each sample from running the <01-process_IMSindel_results.sh> script:
-*sample_name.overall.insertions:    
+"*sample_name.overall.insertions"    
 This file contains the insertions extracted from the results of running IMSindel for each sample. Columns are tab-separated.    
 "sample_name" column consists of the sample name as specified when making the overall concatenated file.
 "contig" column shows the contig in which the insertion was called from, during IMSindel calling.
@@ -48,7 +48,7 @@ Both "stt_pos" and "end_pos" show the insertion position.
 All other columns are outputs from IMSindel.
 
 The following file will be output from running the <02-generate_high_confidence_insertions.sh> script:
-
+"intermediate-sized-insertions.vcf"
 This is a vcf file inclding all insertions detected in all samples, ready to be used for further analysis.
 
 -----------------------------------------
