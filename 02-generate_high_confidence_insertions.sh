@@ -33,11 +33,14 @@ rm $out_dir/02-concatenated-insertions-extra-headers-removed
 echo "Merging insertion calls... "
 python $src/bin/05-merge-insertions.py $out_dir/03-concatenated-insertions-chromosomes-sorted $merge_insertions_positions_difference > $out_dir/04-IMSindel.insertions.merged
 exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
+rm $out_dir/03-concatenated-insertions-chromosomes-sorted
 
 echo "Annotating insertions... "
 python $src/bin/06-annotation-gene-repeats.py $gene_file $acen_file $simplerep_file $repmask_file $out_dir/04-IMSindel.insertions.merged $annotation_flank > $out_dir/05-IMSindel.insertions.annotated
 python $src/bin/07-annotation-microsatellite.py $microsatellites $out_dir/05-IMSindel.insertions.annotated > $out_dir/06-IMSindel.insertions.overall.annotation
 exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
+rm $out_dir/04-IMSindel.insertions.merged
+rm $out_dir/05-IMSindel.insertions.annotated
 
 echo "Filtering insertions and conducting joint call recovery... "
 python $src/bin/08-size-filter.py $out_dir/06-IMSindel.insertions.overall.annotation $ins_len_filter_threshold > $out_dir/07-IMSindel.insertions-filtered-for-size
@@ -46,13 +49,24 @@ python $src/bin/10-filter-for-depth-of-coverage.py $out_dir/08-IMSindel.insertio
 python $src/bin/11-joint-call-recovery.py $out_dir/09-IMSindel.insertions-filtered-for-VAF $confident_ins_num_threshold $ins_sup_reads_threshold > $out_dir/10-IMSindel.insertions-JCR
 python $src/bin/12-make-HWE-dataframe.py $out_dir/10-IMSindel.insertions-JCR > $out_dir/11-IMSindel.insertions-HWE-dataframe
 R --slave --vanilla $out_dir/11-IMSindel.insertions-HWE-dataframe < ./bin/13-HWE-test.R
-mv 14-IMSindel.insertions-HWE-results $out_dir/
-python $src/bin/14-write-HWE-results-into-insertions-list.py $out_dir/14-IMSindel.insertions-HWE-results $out_dir/10-IMSindel.insertions-JCR > $out_dir/15-IMSindel.insertions-HWE-inserted
-python $src/bin/15-HWE-filter.py $out_dir/15-IMSindel.insertions-HWE-inserted $HWE_exclusion_threshold > $out_dir/16-IMSindel.insertions-HWE-filtered
-python $src/bin/16-calculate-insertions-allele-frequency.py $out_dir/16-IMSindel.insertions-HWE-filtered > $out_dir/17-IMSindel.insertions-allele-frequency-inserted
-python $src/bin/17-insertion-allele-frequency-filter.py $out_dir/17-IMSindel.insertions-allele-frequency-inserted $allele_frequency_exclusion_threshold > $out_dir/18-IMSindel.insertions-allele-frequency-filtered
+mv 12-IMSindel.insertions-HWE-results $out_dir/
+python $src/bin/14-write-HWE-results-into-insertions-list.py $out_dir/12-IMSindel.insertions-HWE-results $out_dir/10-IMSindel.insertions-JCR > $out_dir/13-IMSindel.insertions-HWE-inserted
+python $src/bin/15-HWE-filter.py $out_dir/13-IMSindel.insertions-HWE-inserted $HWE_exclusion_threshold > $out_dir/14-IMSindel.insertions-HWE-filtered
+python $src/bin/16-calculate-insertions-allele-frequency.py $out_dir/14-IMSindel.insertions-HWE-filtered > $out_dir/15-IMSindel.insertions-allele-frequency-inserted
+python $src/bin/17-insertion-allele-frequency-filter.py $out_dir/15-IMSindel.insertions-allele-frequency-inserted $allele_frequency_exclusion_threshold > $out_dir/16-IMSindel.insertions-allele-frequency-filtered
 exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; else echo "<< Finished >>"; fi
 echo "Converting high-confidence insertion call set to VCF file... "
 python $src/bin/18-convert-insertion-calls-to-vcf-file.py $out_dir/18-IMSindel.insertions-allele-frequency-filtered $reference $assembly > $out_dir/intermediate-sized-insertions.vcf
 exit_value=$?; if [ $exit_value != 0 ]; then echo "<< Error >>"; exit 1; fi
+rm $out_dir/06-IMSindel.insertions.overall.annotation
+rm $out_dir/07-IMSindel.insertions-filtered-for-size
+rm $out_dir/08-IMSindel.insertions-filtered-for-annotation
+rm $out_dir/09-IMSindel.insertions-filtered-for-VAF
+rm $out_dir/10-IMSindel.insertions-JCR
+rm $out_dir/11-IMSindel.insertions-HWE-dataframe
+rm $out_dir/12-IMSindel.insertions-HWE-results 
+rm $out_dir/13-IMSindel.insertions-HWE-inserted
+rm $out_dir/14-IMSindel.insertions-HWE-filtered
+rm $out_dir/15-IMSindel.insertions-allele-frequency-inserted
+rm $out_dir/16-IMSindel.insertions-allele-frequency-filtered
 echo "<< Complete >>"
