@@ -11,15 +11,9 @@ for line in annotation_filtered_f:
 	if line[0] == "chr":
 		print("\t".join(line[0:6]), "sample_num", "reliable_ins", "insertion_classes", *line[6:], sep="\t")
 		continue
-	ULI_sr_ins = 0
-	LI_sr_ins = 0
-	SID_sr_ins = 0
-	B_sr_ins = 0
-	F_sr_ins = 0
 	reliable_ins = 0
 	ins_stat = "None"
 	samples = line[20:]
-	#print(samples[0], samples[-1])
 	sample_num = 0
 	for sample in samples:
 		if sample != "-":
@@ -42,51 +36,57 @@ for line in annotation_filtered_f:
 			for element in total_r:
 				element=int(element)
 				tr_list.append(element)
-			sam = samp[9].split("_")
-			ins_sup_reads = int(sam[2])
-			sr_list.append(ins_sup_reads)
-			ins_class = sam[1]
-			if ins_class == "SID":
-				SID += 1
-				if ins_sup_reads >= ins_sup_reads_threshold:
-					SID_sr_ins += 1
-			elif ins_class == "ULI":
-				ULI += 1
-				if ins_sup_reads >= ins_sup_reads_threshold:
-					ULI_sr_ins += 1						
-			elif ins_class == "LI":
-				LI += 1
-				if ins_sup_reads >= ins_sup_reads_threshold:
-					LI_sr_ins +=1
-			elif ins_class == "LD":
-				LD += 1
-			elif ins_class == "B":
-				B += 1
-				if ins_sup_reads >= ins_sup_reads_threshold:
-					B_sr_ins += 1
-			elif ins_class == "F":
-				F += 1
-				if ins_sup_reads >= ins_sup_reads_threshold:
-					F_sr_ins += 1
-	reliable_ins += SID_sr_ins
-	reliable_ins += ULI_sr_ins
-	reliable_ins += LI_sr_ins
-	reliable_ins += B_sr_ins
-	reliable_ins += F_sr_ins
+			support_r = samp[7].split(",")
+			for element in support_r:
+				element=int(element)
+				sr_list.append(element)
+			sam = samp[9].split(" ")
+			if len(sam) == 1:
+				ins_class = sam[0].split("_")[1]
+				if ins_class == "SID":
+					SID += 1
+				elif ins_class == "ULI":
+					ULI += 1
+				elif ins_class == "LI":
+					LI += 1
+				elif ins_class == "LD":
+					LD += 1
+				elif ins_class == "B":
+					B += 1
+				elif ins_class == "F":
+					F += 1
+			elif len(sam) > 1:
+				for ele in sam:
+					ins_class = ele.split("_")[1]
+					if ins_class == "SID":
+						SID += 1
+					elif ins_class == "ULI":
+						ULI += 1
+					elif ins_class == "LI":
+						LI += 1
+					elif ins_class == "LD":
+						LD += 1
+					elif ins_class == "B":
+						B += 1
+					elif ins_class == "F":
+						F += 1
 	ins_classes = "SID:" + str(SID) + ";ULI:" + str(ULI) + ";LI:" + str(LI) + ";B:" + str(B) + ";F:" + str(F) + ";LD:"+ str(LD)
+	for element in sr_list:
+		if element >= ins_sup_reads_threshold:
+			reliable_ins += 1
 	
 	#Joint_call recovery:
 	if sample_num == 1:
 		ins_stat = "Excl_sn"	 #exclude because of sample number
-	elif int(max(sr_list)) < 5:
+	elif int(max(sr_list)) < ins_sup_reads_threshold:
 		ins_stat = "Excl_sr"     #exclude because the maximum number of support reads for this insertion group is less than 5
 	elif np.mean(tr_list) >= 150:
-		ins_stat = "Excl_tr"	 #exclude because the average of total reads in individual insertions for this insertion group is more than 150
+		ins_stat = "Excl_tr"	 #exclude because the average of total reads for this insertion group is more than 150
 	elif LD > 0 and SID == 0 and ULI == 0 and LI == 0 and (F == 0 or B == 0):
 		ins_stat = "Excl_ld" 	 #exclude because of existance of only LD in this insertion group
 	elif ULI != 0 or LI != 0 or SID != 0:
 		if reliable_ins >= ins_num_threshold:
-			ins_stat = "Rescue"             #Rescue if insertion is detected using reads with both f and r in some samples and using B or F in other samples
+			ins_stat = "Rescue" 
 		else:
 			if B != 0 and F != 0:
 				ins_stat = "Rescue" 
